@@ -160,7 +160,8 @@ public final class ReciprocalArraySum {
 
         // Compute sum of reciprocals of array elements
         ReciprocalArraySumTask rarrsum_task = new ReciprocalArraySumTask(0, input.length, input);
-        ForkJoinPool.commonPool().invoke(rarrsum_task);
+        ForkJoinPool pool = new ForkJoinPool(2);
+        pool.invoke(rarrsum_task);
         sum = rarrsum_task.getValue();
 
         return sum;
