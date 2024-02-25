@@ -166,6 +166,83 @@ public final class ReciprocalArraySum {
         return sum;
     }
 
+/**
+     * This class stub can be filled in to implement the body of each chunk
+     * for task created to perform reciprocal array sum in parallel.
+     */
+    private static class ReciprocalArraySumManyTasks extends RecursiveAction {
+        /**
+         * Number of chunks.
+         */
+        private final int nChunks;
+        /**
+         * Starting chunk for traversal done by this task.
+         */
+        private final int startChunkInclusive;
+        /**
+         * Ending chunk for traversal done by this task.
+         */
+        private final int endChunkExclusive;
+        /**
+         * Input array to reciprocal sum.
+         */
+        private final double[] input;
+        /**
+         * Intermediate value produced by this task.
+         */
+        private double value;
+
+        /**
+         * Constructor.
+         * @param setStartChunkInclusive Set the number of chunks
+         * @param setStartChunkInclusive Set the starting chunk to begin
+         *        parallel traversal at.
+         * @param setEndChunkExclusive Set ending chunk for parallel traversal.
+         * @param setInput Input values
+         */
+        ReciprocalArraySumManyTasks(final int setNChunks, final int setStartChunkInclusive,
+                final int setEndChunkExclusive, final double[] setInput) {
+            this.nChunks = setNChunks;
+            this.startChunkInclusive = setStartChunkInclusive;
+            this.endChunkExclusive = setEndChunkExclusive;
+            this.input = setInput;
+        }
+
+        /**
+         * Getter for the value produced by this task.
+         * @return Value produced by this task
+         */
+        public double getValue() {
+            return value;
+        }
+
+        @Override
+        protected void compute() {
+            final int THRESHOLD = 1;
+            if (endChunkExclusive - startChunkInclusive <= THRESHOLD) {
+                for (int chunk = startChunkInclusive; chunk < endChunkExclusive; chunk++) {
+                    int startIndexInclusive = getChunkStartInclusive(chunk, nChunks, input.length);
+                    int endIndexExclusive = getChunkEndExclusive(chunk, nChunks, input.length);
+
+                    // Compute sum of reciprocals of array elements
+                    ReciprocalArraySumTask rarrsum_task = new ReciprocalArraySumTask(startIndexInclusive, endIndexExclusive, input);
+                    ForkJoinPool pool = new ForkJoinPool(2);
+                    pool.invoke(rarrsum_task);
+                    value += rarrsum_task.getValue();
+                }
+            }
+            else {
+                int midChunk = (startChunkInclusive + endChunkExclusive) / 2;
+                ReciprocalArraySumManyTasks left = new ReciprocalArraySumManyTasks(nChunks, startChunkInclusive, midChunk, input);
+                ReciprocalArraySumManyTasks right = new ReciprocalArraySumManyTasks(nChunks, midChunk, endChunkExclusive, input);
+                left.fork();
+                right.compute();
+                left.join();
+                value = left.getValue() + right.getValue();
+            }
+        }
+    }
+
     /**
      * TODO: Extend the work you did to implement parArraySum to use a set
      * number of tasks to compute the reciprocal array sum. You may find the
@@ -178,12 +255,15 @@ public final class ReciprocalArraySum {
      */
     protected static double parManyTaskArraySum(final double[] input,
             final int numTasks) {
+        assert numTasks >= 1;
+
         double sum = 0;
 
-        // Compute sum of reciprocals of array elements
-        for (int i = 0; i < input.length; i++) {
-            sum += 1 / input[i];
-        }
+        // Compute sum of reciprocals of array elements with many tasks
+        ReciprocalArraySumManyTasks rarrsum_manytasks = new ReciprocalArraySumManyTasks(numTasks, 0, numTasks, input);
+        ForkJoinPool pool = ForkJoinPool.commonPool();
+        pool.invoke(rarrsum_manytasks);
+        sum = rarrsum_manytasks.getValue();
 
         return sum;
     }
