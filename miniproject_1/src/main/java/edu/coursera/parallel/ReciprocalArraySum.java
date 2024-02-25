@@ -126,7 +126,7 @@ public final class ReciprocalArraySum {
 
         @Override
         protected void compute() {
-            final int THRESHOLD = 1 << 10;
+            final int THRESHOLD = 1 << 15;
             if (endIndexExclusive - startIndexInclusive <= THRESHOLD) {
                 for (int i = startIndexInclusive; i < endIndexExclusive; i++) {
                     value += 1 / input[i];
