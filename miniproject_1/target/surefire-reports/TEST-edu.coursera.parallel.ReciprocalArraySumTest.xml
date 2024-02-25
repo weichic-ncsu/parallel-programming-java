@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.coursera.parallel.ReciprocalArraySumTest" time="43.484" tests="4" errors="0" skipped="0" failures="3">
+<testsuite name="edu.coursera.parallel.ReciprocalArraySumTest" time="42.521" tests="4" errors="0" skipped="0" failures="2">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="java.vm.version" value="21.0.2+13-LTS"/>
@@ -61,26 +61,20 @@
     <property name="java.vendor.version" value="(Red_Hat-21.0.2.0+13-2)"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase name="testParSimpleTwoHundredMillion" classname="edu.coursera.parallel.ReciprocalArraySumTest" time="24.435"/>
-  <testcase name="testParManyTaskTwoHundredMillion" classname="edu.coursera.parallel.ReciprocalArraySumTest" time="18.4">
-    <failure message="It was expected that the many-task parallel implementation would run at least 9.600000x faster, but it only achieved 3.767857x speedup" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: It was expected that the many-task parallel implementation would run at least 9.600000x faster, but it only achieved 3.767857x speedup
+  <testcase name="testParSimpleTwoHundredMillion" classname="edu.coursera.parallel.ReciprocalArraySumTest" time="23.527"/>
+  <testcase name="testParManyTaskTwoHundredMillion" classname="edu.coursera.parallel.ReciprocalArraySumTest" time="18.371">
+    <failure message="It was expected that the many-task parallel implementation would run at least 9.600000x faster, but it only achieved 3.750000x speedup" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: It was expected that the many-task parallel implementation would run at least 9.600000x faster, but it only achieved 3.750000x speedup
 	at junit.framework.Assert.fail(Assert.java:47)
 	at junit.framework.Assert.assertTrue(Assert.java:20)
 	at edu.coursera.parallel.ReciprocalArraySumTest.testParManyTaskTwoHundredMillion(ReciprocalArraySumTest.java:155)
 </failure>
   </testcase>
-  <testcase name="testParManyTaskTwoMillion" classname="edu.coursera.parallel.ReciprocalArraySumTest" time="0.371">
+  <testcase name="testParSimpleTwoMillion" classname="edu.coursera.parallel.ReciprocalArraySumTest" time="0.274"/>
+  <testcase name="testParManyTaskTwoMillion" classname="edu.coursera.parallel.ReciprocalArraySumTest" time="0.349">
     <failure message="It was expected that the many-task parallel implementation would run at least 7.200000x faster, but it only achieved 0.666667x speedup" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: It was expected that the many-task parallel implementation would run at least 7.200000x faster, but it only achieved 0.666667x speedup
 	at junit.framework.Assert.fail(Assert.java:47)
 	at junit.framework.Assert.assertTrue(Assert.java:20)
 	at edu.coursera.parallel.ReciprocalArraySumTest.testParManyTaskTwoMillion(ReciprocalArraySumTest.java:143)
-</failure>
-  </testcase>
-  <testcase name="testParSimpleTwoMillion" classname="edu.coursera.parallel.ReciprocalArraySumTest" time="0.278">
-    <failure message="It was expected that the two-task parallel implementation would run at least 1.500000x faster, but it only achieved 1.000000x speedup" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: It was expected that the two-task parallel implementation would run at least 1.500000x faster, but it only achieved 1.000000x speedup
-	at junit.framework.Assert.fail(Assert.java:47)
-	at junit.framework.Assert.assertTrue(Assert.java:20)
-	at edu.coursera.parallel.ReciprocalArraySumTest.testParSimpleTwoMillion(ReciprocalArraySumTest.java:120)
 </failure>
   </testcase>
 </testsuite>
