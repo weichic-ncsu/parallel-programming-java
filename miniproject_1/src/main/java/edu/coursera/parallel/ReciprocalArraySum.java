@@ -126,7 +126,7 @@ public final class ReciprocalArraySum {
 
         @Override
         protected void compute() {
-            final int THRESHOLD = 1 << 15;
+            final int THRESHOLD = 1 << 10;
             if (endIndexExclusive - startIndexInclusive <= THRESHOLD) {
                 for (int i = startIndexInclusive; i < endIndexExclusive; i++) {
                     value += 1 / input[i];
@@ -160,8 +160,7 @@ public final class ReciprocalArraySum {
 
         // Compute sum of reciprocals of array elements
         ReciprocalArraySumTask rarrsum_task = new ReciprocalArraySumTask(0, input.length, input);
-        ForkJoinPool pool = new ForkJoinPool(2);
-        pool.invoke(rarrsum_task);
+        ForkJoinPool.commonPool().invoke(rarrsum_task);
         sum = rarrsum_task.getValue();
 
         return sum;
@@ -227,8 +226,7 @@ public final class ReciprocalArraySum {
 
                     // Compute sum of reciprocals of array elements
                     ReciprocalArraySumTask rarrsum_task = new ReciprocalArraySumTask(startIndexInclusive, endIndexExclusive, input);
-                    ForkJoinPool pool = new ForkJoinPool(2);
-                    pool.invoke(rarrsum_task);
+                    ForkJoinPool.commonPool().invoke(rarrsum_task);
                     value += rarrsum_task.getValue();
                 }
             }
@@ -262,8 +260,7 @@ public final class ReciprocalArraySum {
 
         // Compute sum of reciprocals of array elements with many tasks
         ReciprocalArraySumManyTasks rarrsum_manytasks = new ReciprocalArraySumManyTasks(numTasks, 0, numTasks, input);
-        ForkJoinPool pool = ForkJoinPool.commonPool();
-        pool.invoke(rarrsum_manytasks);
+        ForkJoinPool.commonPool().invoke(rarrsum_manytasks);
         sum = rarrsum_manytasks.getValue();
 
         return sum;
